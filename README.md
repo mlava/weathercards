@@ -8,4 +8,6 @@ This extension also includes a css file that allows the three cards to display i
 
 ![image](https://user-images.githubusercontent.com/6857790/182787116-bd963122-5816-42b4-9a36-1cb6d3d860bd.png)
 
-You will need an API Key from https://openweathermap.org/api.
+You will need an API Key from https://openweathermap.org/api. Make sure to subscribe to the Current Weather Data API.
+
+![image](https://user-images.githubusercontent.com/6857790/185514633-5d65739c-7fdc-4f38-ac38-ba191beab8e2.png)
