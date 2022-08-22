@@ -1,6 +1,6 @@
 Import the weather conditions and forecast from Open Weather Map.
 
-This is an update of David Eaton's original Weather Forecast SmartBlock, with an archived version of the instructions available at https://github.com/dvargas92495/SmartBlocks/issues/211.
+This is an update of David Eaton's original Weather Forecast SmartBlock, with an archived version of the instructions available at https://github.com/dvargas92495/SmartBlocks/issues/211. Please note that as this was David's work I am not receiving any payment from Roam Research for maintaining it for the community.
 
 Set your location, API key and preferred units in the Roam Depot settings. Trigger via the Command Palette.
 
