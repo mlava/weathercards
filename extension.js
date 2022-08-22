@@ -37,21 +37,25 @@ export default {
                 if (!extensionAPI.settings.get("weather-wxApiKey")) {
                     key = "API";
                     sendConfigAlert(key);
+                    break breakme;
                 } else if (!extensionAPI.settings.get("weather-weatherDefaultLocation")) {
                     key = "location";
                     sendConfigAlert(key);
+                    break breakme;
                 } else {
                     const wxApiKey = extensionAPI.settings.get("weather-wxApiKey");
                     const wxLocation = extensionAPI.settings.get("weather-weatherDefaultLocation");
                     if (extensionAPI.settings.get("weather-wxUnits")) {
                         const regex = /^metric|imperial$/;
-                        if (extensionAPI.settings.get("weather-wxUnits").match(regex)) {
+                        if (regex.test(extensionAPI.settings.get("weather-wxUnits"))) {
                             wxUnits = extensionAPI.settings.get("weather-wxUnits");
                         } else {
                             key = "units";
                             sendConfigAlert(key);
                             break breakme;
                         }
+                    } else {
+                        wxUnits = "metric";
                     }
                     const startBlock = await window.roamAlphaAPI.ui.getFocusedBlock()?.["block-uid"];
 
@@ -78,6 +82,7 @@ export default {
                     } else {
                         var wxLocationName = dataResults[0].name + ' (' + dataResults[0].country + ')';
                     }
+                    console.info(wxLocationName);
                     var url = 'https://api.openweathermap.org/data/2.5/onecall?'
                         + 'lat=' + lat + '&lon=' + lon
                         + '&units=' + wxUnits + '&'
@@ -89,6 +94,7 @@ export default {
                     var weatherTimezone = dataResults.timezone_offset / 60 * -1;
                     var tzDiff = curTimezone - weatherTimezone;
                     var wxAlerts = '';
+                    console.info(dataResults);
 
                     /* parse weather forecast data for each day */
                     /* Today */
