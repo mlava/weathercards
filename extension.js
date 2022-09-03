@@ -22,14 +22,61 @@ const config = {
     ]
 };
 
+// copied and adapted from https://github.com/dvargas92495/roamjs-components/blob/main/src/writes/createBlock.ts
+const createBlock = (params) => {
+    const uid = window.roamAlphaAPI.util.generateUID();
+    return Promise.all([
+        window.roamAlphaAPI.createBlock({
+            location: {
+                "parent-uid": params.parentUid,
+                order: params.order,
+            },
+            block: {
+                uid,
+                string: params.node.text
+            }
+        })
+    ].concat((params.node.children || []).map((node, order) =>
+        createBlock({ parentUid: uid, order, node })
+    )))
+};
+
 export default {
     onload: ({ extensionAPI }) => {
         extensionAPI.settings.panel.create(config);
 
         window.roamAlphaAPI.ui.commandPalette.addCommand({
             label: "Weathercards",
-            callback: () => weather()
+            callback: () => {
+                const uid = window.roamAlphaAPI.ui.getFocusedBlock()?.["block-uid"];
+                weather().then(async (blocks) => {
+                    const parentUid = uid || await window.roamAlphaAPI.ui.mainWindow.getOpenPageOrBlockUid();
+                    blocks.forEach((node, order) => createBlock({
+                        parentUid,
+                        order,
+                        node
+                    }))
+                });
+            },
+            //callback: () => weather()
         });
+
+        const args = {
+            text: "WEATHERCARDS",
+            help: "Import the weather forecast from Open Weather Map",
+            handler: (context) => weather,
+        };
+
+        if (window.roamjs?.extension?.smartblocks) {
+            window.roamjs.extension.smartblocks.registerCommand(args);
+        } else {
+            document.body.addEventListener(
+                `roamjs:smartblocks:loaded`,
+                () =>
+                    window.roamjs?.extension.smartblocks &&
+                    window.roamjs.extension.smartblocks.registerCommand(args)
+            );
+        }
 
         async function weather() {
             var key, wxUnits;
@@ -189,6 +236,7 @@ export default {
                             + dataResults.alerts[0].description.replace(/\n\*/g, 'linebreak').replace(/\n/g, ' ').replace(/linebreak/g, '\n*')
                             + '))';
                     }
+                    /*
                     await window.roamAlphaAPI.updateBlock(
                         {
                             block: {
@@ -199,7 +247,7 @@ export default {
                             }
                         });
 
-                    /* display weather cards */
+                    // display weather cards 
                     let newUid0 = roamAlphaAPI.util.generateUID();
                     let newUid1 = roamAlphaAPI.util.generateUID();
                     let newUid2 = roamAlphaAPI.util.generateUID();
@@ -220,8 +268,18 @@ export default {
                             location: { "parent-uid": startBlock, order: 2 },
                             block: { string: wxInfo2.toString(), uid: newUid2 }
                         }
-                    );
+                    );*/
                 };
+                return [
+                    {
+                        text: '**' + wxLocationName + '** __' + wxUpdateTime + '__' + wxAlerts + ' #rm-grid #rm-grid-3c #.wx-header'.toString(),
+                        children: [
+                            { text: ""+wxInfo0.toString()+"" },
+                            { text: ""+wxInfo1.toString()+"" },
+                            { text: ""+wxInfo2.toString()+"" },
+                        ]
+                    },
+                ];
             }
         }
     },
@@ -229,6 +287,9 @@ export default {
         window.roamAlphaAPI.ui.commandPalette.removeCommand({
             label: 'Weathercards'
         });
+        if (window.roamjs?.extension?.smartblocks) {
+            window.roamjs.extension.smartblocks.unregisterCommand("WEATHERCARDS");
+        };
     }
 }
 
