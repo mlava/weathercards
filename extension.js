@@ -50,12 +50,31 @@ export default {
             callback: () => {
                 const uid = window.roamAlphaAPI.ui.getFocusedBlock()?.["block-uid"];
                 weather().then(async (blocks) => {
-                    const parentUid = uid || await window.roamAlphaAPI.ui.mainWindow.getOpenPageOrBlockUid();
-                    blocks.forEach((node, order) => createBlock({
-                        parentUid,
-                        order,
-                        node
-                    }))
+                    if (uid != undefined) {
+                        const pageId = window.roamAlphaAPI.pull("[*]", [":block/uid", uid])?.[":block/page"]?.[":db/id"];
+                        const parentUid = window.roamAlphaAPI.pull("[:block/uid]", pageId)?.[":block/uid"];
+                        blocks.forEach((node, order) => createBlock({
+                            parentUid,
+                            order,
+                            node
+                        }));
+                    } else {
+                        var uri = window.location.href;
+                        const regex = /^https:\/\/roamresearch.com\/.+\/(app|offline)\/\w+$/; //today's DNP
+                        if (regex.test(uri)) { // this is Daily Notes for today
+                            var today = new Date();
+                            var dd = String(today.getDate()).padStart(2, '0');
+                            var mm = String(today.getMonth()+1).padStart(2, '0');
+                            var yyyy = today.getFullYear();
+                            var pageBlock = ""+mm+"-"+dd+"-"+yyyy+"";
+                        }
+                        const parentUid = pageBlock || await window.roamAlphaAPI.ui.mainWindow.getOpenPageOrBlockUid();
+                        blocks.forEach((node, order) => createBlock({
+                            parentUid,
+                            order,
+                            node
+                        }))
+                    }
                 });
             },
             //callback: () => weather()
@@ -158,12 +177,10 @@ export default {
                     var wxEvening0 = Math.round(dataResults.daily[0].temp.eve);
                     var wxHumidity0 = Math.round(dataResults.current.humidity);
                     var wxPrecip0 = Math.round(dataResults.daily[0].pop * 100);
-                    //var wxSunrise0 = dayjs(dataResults.current.sunrise * 1000).add(tzDiff, 'minute').format('h:mm A');
                     const dateS0 = new Date(dataResults.current.sunrise * 1000);
                     var wxSunrise0 = '' + dateS0.customFormat("#h#:#mm# #AMPM#") + '';
                     const dateSS0 = new Date(dataResults.current.sunset * 1000);
                     var wxSunset0 = '' + dateSS0.customFormat("#h#:#mm# #AMPM#") + '';
-                    //var wxSunset0 = dayjs(dataResults.current.sunset * 1000).add(tzDiff, 'minute').format('h:mm A');
                     var wxWindSpeed0 = Math.round(dataResults.current.wind_speed);
                     /* Tomorrow */
                     const date1 = new Date(dataResults.daily[1].dt * 1000);
@@ -236,39 +253,6 @@ export default {
                             + dataResults.alerts[0].description.replace(/\n\*/g, 'linebreak').replace(/\n/g, ' ').replace(/linebreak/g, '\n*')
                             + '))';
                     }
-                    /*
-                    await window.roamAlphaAPI.updateBlock(
-                        {
-                            block: {
-                                uid: startBlock, string: '**' + wxLocationName + '** '
-                                    + ' __' + wxUpdateTime + '__ '
-                                    + '   ' + wxAlerts + ' '
-                                    + '#rm-grid #rm-grid-3c #.wx-header'.toString(), open: true
-                            }
-                        });
-
-                    // display weather cards 
-                    let newUid0 = roamAlphaAPI.util.generateUID();
-                    let newUid1 = roamAlphaAPI.util.generateUID();
-                    let newUid2 = roamAlphaAPI.util.generateUID();
-                    await window.roamAlphaAPI.createBlock(
-                        {
-                            location: { "parent-uid": startBlock, order: 0 },
-                            block: { string: wxInfo0.toString(), uid: newUid0 }
-                        }
-                    );
-                    await window.roamAlphaAPI.createBlock(
-                        {
-                            location: { "parent-uid": startBlock, order: 1 },
-                            block: { string: wxInfo1.toString(), uid: newUid1 }
-                        }
-                    );
-                    await window.roamAlphaAPI.createBlock(
-                        {
-                            location: { "parent-uid": startBlock, order: 2 },
-                            block: { string: wxInfo2.toString(), uid: newUid2 }
-                        }
-                    );*/
                 };
                 return [
                     {
