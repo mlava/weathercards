@@ -148,7 +148,7 @@ export default {
                     } else {
                         var wxLocationName = dataResults[0].name + ' (' + dataResults[0].country + ')';
                     }
-                    console.info(wxLocationName);
+                    
                     var url = 'https://api.openweathermap.org/data/2.5/onecall?'
                         + 'lat=' + lat + '&lon=' + lon
                         + '&units=' + wxUnits + '&'
@@ -160,7 +160,6 @@ export default {
                     var weatherTimezone = dataResults.timezone_offset / 60 * -1;
                     var tzDiff = curTimezone - weatherTimezone;
                     var wxAlerts = '';
-                    console.info(dataResults);
 
                     /* parse weather forecast data for each day */
                     /* Today */
