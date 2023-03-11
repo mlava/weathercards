@@ -201,7 +201,7 @@ export default {
                                 wxWindSpeed += "kph";
                             }
 
-                            wxInfo += wxDay + '\n'
+                            wxInfo += '**Today, **' + wxDay + '\n'
                                 + '\n'
                                 + '**Currently: **' + wxDescriptionCur + ' (' + wxCurTemperature + '°)\n'
                                 + '**Forecast: **' + wxDescription + ' (' + wxHighTemperature + '°/' + wxLowTemperature + '°)\n'
