@@ -4,20 +4,25 @@
   grid-template-columns: repeat(3, 1fr);
   max-width: 900px;
 }
-.roam-block-container[data-page-links*="rm-grid"] .rm-block-children
-  > [data-page-links*="rm-grid-3c"] {
-grid-column-start: 1;
-grid-column-end: 4;
-border-left: none;
+
+.roam-block-container[data-page-links*="rm-grid"] .rm-block-children>[data-page-links*="rm-grid-3c"] {
+  grid-column-start: 1;
+  grid-column-end: 4;
+  border-left: none;
 }
-[data-tag="rm-grid"], [data-tag="rm-grid-3c"], [data-tag="hide-bullet"] {
+
+[data-tag="rm-grid"],
+[data-tag="rm-grid-3c"],
+[data-tag="hide-bullet"] {
   display: none;
 }
 
 [data-tag="weathercard"] {
   margin-left: -5px;
 }
-[data-tag="weathercard"], [data-tag^="wx-"] {
+
+[data-tag="weathercard"],
+[data-tag^="wx-"] {
   font-size: 0px;
 }
 
@@ -25,6 +30,7 @@ border-left: none;
   width: 0;
   height: 0;
 }
+
 .wx-header .rm-spacer:before {
   content: " ‼ Special Weather Statement ‼ ";
   color: red;
@@ -32,12 +38,13 @@ border-left: none;
   font-weight: bold;
   display: visible;
 }
+
 [data-tag=".wx-header"] {
   font-size: 0;
 }
 
 div[data-page-links*="weathercard"] {
-  border: 1px solid rgba(128,128,128,0.50);
+  border: 1px solid rgba(128, 128, 128, 0.50);
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   border-radius: 8px;
   width: 98%;
@@ -58,7 +65,7 @@ div[data-page-links*="weathercard"] .rm-block-text {
 
 /* Hide bullet in the cards */
 [data-page-links*="weathercard"] .controls.rm-block__controls .rm-bullet__inner,
-    [data-page-links*="hide-bullet"] .controls.rm-block__controls .rm-bullet__inner {
+[data-page-links*="hide-bullet"] .controls.rm-block__controls .rm-bullet__inner {
   display: none;
 }
 
@@ -72,7 +79,7 @@ div[data-page-links*="weathercard"] .rm-block-text {
 [data-page-links*="wx-Clouds"] {
   /*background-image: url(https://images.unsplash.com/photo-1499956827185-0d63ee78a910?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTR8fG92ZXJjYXN0JTIwc2t5fGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=60);*/
   background-image: url(https://source.unsplash.com/8iZG31eXkks/);
-  background-color: rgba(255,255,255,0.7);
+  background-color: rgba(255, 255, 255, 0.7);
   filter: contrast(100%);
 }
 
@@ -80,7 +87,7 @@ div[data-page-links*="weathercard"] .rm-block-text {
   /*background-image: url(
     https://images.unsplash.com/photo-1590077428593-a55bb07c4665?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTd8fGNsZWFyJTIwc2t5fGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=60);*/
   background-image: url(https://source.unsplash.com/-nYBR0LFTvQ/);
-  background-color: rgba(155,155,155,0.7);
+  background-color: rgba(155, 155, 155, 0.5);
   filter: contrast(150%);
 }
 
@@ -97,7 +104,7 @@ div[data-page-links*="weathercard"] .rm-block-text {
   filter: contrast(175%);
   */
   background-image: url(https://www.maxpixel.net/static/photo/1x/Wet-Water-Moisture-Window-Raindrop-Rain-5428649.jpg);
-  background-color: rgba(155,155,155,1);
+  background-color: rgba(155, 155, 155, 1);
   filter: contrast(200%);
 }
 
@@ -110,7 +117,7 @@ div[data-page-links*="weathercard"] .rm-block-text {
   filter: contrast(155%);
   */
   background-image: url(https://source.unsplash.com/YUSV-xtOHqo/);
-  background-color: rgba(155,155,155,.85);
+  background-color: rgba(155, 155, 155, .85);
   filter: contrast(125%);
 }
 
@@ -136,7 +143,7 @@ div[data-page-links*="weathercard"] .rm-block-text {
   filter: contrast(100%);
   */
   background-image: url(https://source.unsplash.com/qPvBmSvmohs/);
-  background-color: rgba(155,155,155,.85);
+  background-color: rgba(155, 155, 155, .85);
   filter: contrast(125%);
 }
 
@@ -153,7 +160,7 @@ div[data-page-links*="weathercard"] .rm-block-text {
   filter: contrast(125%);
   */
   background-image: url(https://source.unsplash.com/IdaN9L1iEV4/);
-  background-color: rgba(155,155,155,.5);
+  background-color: rgba(155, 155, 155, .5);
   filter: contrast(125%);
 }
 
@@ -168,13 +175,13 @@ div[data-page-links*="weathercard"] .rm-block-text {
   background-size: contain;
   */
   background-image: url(https://source.unsplash.com/Bc3NXyX2XMk/);
-  background-color: rgba(200,200,255,.75);
+  background-color: rgba(200, 200, 255, .75);
   filter: contrast(125%);
 }
 
 [data-page-links*="wx-Smoke"] {
   background-image: url(https://images.unsplash.com/photo-1589825969834-e24c6859ac7a?ixid=MXwxMjA3fDB8MHxzZWFyY2h8NDU4fHxzbW9rZXxlbnwwfHwwfA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=60);
-  background-color: rgba(155,155,155,.85);
+  background-color: rgba(155, 155, 155, .85);
   background-blend-mode: screen;
   filter: contrast(175%);
 }
@@ -187,7 +194,7 @@ div[data-page-links*="weathercard"] .rm-block-text {
   filter: contrast(125%);
   */
   background-image: url(https://source.unsplash.com/W43gm6TD118/);
-  background-color: rgba(155,155,155,.75);
+  background-color: rgba(155, 155, 155, .75);
   filter: contrast(175%);
   background-blend-mode: saturation;
 }
