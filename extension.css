@@ -99,13 +99,10 @@ div[data-page-links*="weathercard"] .rm-block-text {
   background-image: url(https://source.unsplash.com/YmE2aHPLWN4/);
   background-color: rgba(155,155,155,1);
   filter: contrast(125%);
+  */
   background-image: url(https://source.unsplash.com/x-EFnChQaAs/);
   background-color: rgba(155,155,155,1);
   filter: contrast(175%);
-  */
-  background-image: url(https://www.maxpixel.net/static/photo/1x/Wet-Water-Moisture-Window-Raindrop-Rain-5428649.jpg);
-  background-color: rgba(155, 155, 155, 1);
-  filter: contrast(200%);
 }
 
 [data-page-links*="wx-Thunderstorm"] {
@@ -165,15 +162,6 @@ div[data-page-links*="weathercard"] .rm-block-text {
 }
 
 [data-page-links*="wx-Snow"] {
-  /*
-  background-image: url(https://images.unsplash.com/photo-1516715094483-75da7dee9758?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTQzfHxzbm93aW5nfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=60);
-  background-color: rgba(155,155,155,.85);
-  filter: contrast(125%);
-  background-image: url(https://source.unsplash.com/s8QSJTJI6qg/);
-  background-color: rgba(155,155,155,.95);
-  filter: contrast(125%);
-  background-size: contain;
-  */
   background-image: url(https://source.unsplash.com/Bc3NXyX2XMk/);
   background-color: rgba(200, 200, 255, .75);
   filter: contrast(125%);
@@ -187,12 +175,6 @@ div[data-page-links*="weathercard"] .rm-block-text {
 }
 
 [data-page-links*="wx-Tornado"] {
-  /*
-  background-image: url(https://images.unsplash.com/photo-1500740516770-92bd004b996e?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8c3Rvcm18ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=60);
-  background-color: rgba(200,200,200,0.35);
-  background-blend-mode: saturation;
-  filter: contrast(125%);
-  */
   background-image: url(https://source.unsplash.com/W43gm6TD118/);
   background-color: rgba(155, 155, 155, .75);
   filter: contrast(175%);

@@ -83,7 +83,6 @@ export default {
                     }
                 });
             },
-            //callback: () => weather()
         });
 
         const args = {
@@ -234,114 +233,6 @@ export default {
                         }
                         days.push({ "text": wxInfo });
                     }
-                    /*
-                    // parse weather forecast data for each day
-                    // Today
-                    const date = new Date(dataResults.daily[0].dt * 1000);
-                    var wxDay0 = '**' + date.customFormat("#DDDD#, #MMM# #DD#, #YYYY#") + '**';
-                    var wxConditions0 = dataResults.current.weather[0].main;
-                    var wxDescriptionCur0 = toSentenceCase(dataResults.current.weather[0].description);
-                    var wxDescription0 = toSentenceCase(dataResults.daily[0].weather[0].description);
-                    var wxHighTemperature0 = Math.round(dataResults.daily[0].temp.max);
-                    var wxLowTemperature0 = Math.round(dataResults.daily[0].temp.min);
-                    var wxCurTemperature0 = Math.round(dataResults.current.temp);
-                    var wxMorning0 = Math.round(dataResults.daily[0].temp.morn);
-                    var wxAfternoon0 = Math.round(dataResults.daily[0].temp.day);
-                    var wxEvening0 = Math.round(dataResults.daily[0].temp.eve);
-                    var wxHumidity0 = Math.round(dataResults.current.humidity);
-                    var wxPrecip0 = Math.round(dataResults.daily[0].pop * 100);
-                    const dateS0 = new Date(dataResults.current.sunrise * 1000);
-                    var wxSunrise0 = '' + dateS0.customFormat("#h#:#mm# #AMPM#") + '';
-                    const dateSS0 = new Date(dataResults.current.sunset * 1000);
-                    var wxSunset0 = '' + dateSS0.customFormat("#h#:#mm# #AMPM#") + '';
-                    var wxWindSpeed0 = Math.round(dataResults.current.wind_speed);
-                    // Tomorrow 
-                    const date1 = new Date(dataResults.daily[1].dt * 1000);
-                    var wxDay1 = '**' + date1.customFormat("#DDDD#, #MMM# #DD#, #YYYY#") + '**';
-                    var wxDescription1 = toSentenceCase(dataResults.daily[1].weather[0].description);
-                    var wxConditions1 = dataResults.daily[1].weather[0].main;
-                    var wxHighTemperature1 = Math.round(dataResults.daily[1].temp.max);
-                    var wxLowTemperature1 = Math.round(dataResults.daily[1].temp.min);
-                    var wxMorning1 = Math.round(dataResults.daily[1].temp.morn);
-                    var wxAfternoon1 = Math.round(dataResults.daily[1].temp.day);
-                    var wxEvening1 = Math.round(dataResults.daily[1].temp.eve);
-                    var wxHumidity1 = Math.round(dataResults.daily[1].humidity);
-                    var wxPrecip1 = Math.round(dataResults.daily[1].pop * 100);
-                    const dateS1 = new Date(dataResults.daily[1].sunrise * 1000);
-                    var wxSunrise1 = '' + dateS1.customFormat("#h#:#mm# #AMPM#") + '';
-                    const dateSS1 = new Date(dataResults.daily[1].sunset * 1000);
-                    var wxSunset1 = '' + dateSS1.customFormat("#h#:#mm# #AMPM#") + '';
-                    var wxWindSpeed1 = Math.round(dataResults.daily[1].wind_speed);
-                    // Day After Tomorrow
-                    const date2 = new Date(dataResults.daily[2].dt * 1000);
-                    var wxDay2 = '**' + date2.customFormat("#DDDD#, #MMM# #DD#, #YYYY#") + '**';
-                    var wxDescription2 = toSentenceCase(dataResults.daily[2].weather[0].description);
-                    var wxConditions2 = dataResults.daily[2].weather[0].main;
-                    var wxHighTemperature2 = Math.round(dataResults.daily[2].temp.max);
-                    var wxLowTemperature2 = Math.round(dataResults.daily[2].temp.min);
-                    var wxMorning2 = Math.round(dataResults.daily[2].temp.morn);
-                    var wxAfternoon2 = Math.round(dataResults.daily[2].temp.day);
-                    var wxEvening2 = Math.round(dataResults.daily[2].temp.eve);
-                    var wxHumidity2 = Math.round(dataResults.daily[2].humidity);
-                    var wxPrecip2 = Math.round(dataResults.daily[2].pop * 100);
-                    const dateS2 = new Date(dataResults.daily[2].sunrise * 1000);
-                    var wxSunrise2 = '' + dateS2.customFormat("#h#:#mm# #AMPM#") + '';
-                    const dateSS2 = new Date(dataResults.daily[2].sunset * 1000);
-                    var wxSunset2 = '' + dateSS2.customFormat("#h#:#mm# #AMPM#") + '';
-                    var wxWindSpeed2 = Math.round(dataResults.daily[2].wind_speed);
-                    // 4 
-                    const date3 = new Date(dataResults.daily[3].dt * 1000);
-                    var wxDay3 = '**' + date3.customFormat("#DDDD#, #MMM# #DD#, #YYYY#") + '**';
-                    var wxDescription3 = toSentenceCase(dataResults.daily[3].weather[0].description);
-                    var wxConditions3 = dataResults.daily[3].weather[0].main;
-                    var wxHighTemperature3 = Math.round(dataResults.daily[3].temp.max);
-                    var wxLowTemperature3 = Math.round(dataResults.daily[3].temp.min);
-                    var wxMorning3 = Math.round(dataResults.daily[3].temp.morn);
-                    var wxAfternoon3 = Math.round(dataResults.daily[3].temp.day);
-                    var wxEvening3 = Math.round(dataResults.daily[3].temp.eve);
-                    var wxHumidity3 = Math.round(dataResults.daily[3].humidity);
-                    var wxPrecip3 = Math.round(dataResults.daily[3].pop * 100);
-                    const dateS3 = new Date(dataResults.daily[3].sunrise * 1000);
-                    var wxSunrise3 = '' + dateS3.customFormat("#h#:#mm# #AMPM#") + '';
-                    const dateSS3 = new Date(dataResults.daily[3].sunset * 1000);
-                    var wxSunset3 = '' + dateSS3.customFormat("#h#:#mm# #AMPM#") + '';
-                    var wxWindSpeed3 = Math.round(dataResults.daily[3].wind_speed);
-
-                    // format weather cards
-                    // day 0
-                    var wxInfo0 = wxDay0 + '\n'
-                        + '\n'
-                        + '**Currently: **' + wxDescriptionCur0 + ' (' + wxCurTemperature0 + '°)\n'
-                        + '**Forecast: **' + wxDescription0 + ' (' + wxHighTemperature0 + '°/' + wxLowTemperature0 + '°)\n'
-                        + '**Morn: **' + wxMorning0 + '° **Day: **' + wxAfternoon0 + '° **Eve: **' + wxEvening0 + '°\n'
-                        + '**Prec: **' + wxPrecip0 + '% **Wind: **' + wxWindSpeed0 + 'mph **Hum: **' + wxHumidity0 + '%\n'
-                        + '**Sunrise: **' + wxSunrise0 + ' **Sunset: **' + wxSunset0 + ' '
-                        + ' #wx-fc #weathercard #\[\[wx-' + wxConditions0 + '\]\]';
-                    // day 1
-                    var wxInfo1 = wxDay1 + '\n'
-                        + '\n'
-                        + '**Forecast: **' + wxDescription1 + ' (' + wxHighTemperature1 + '°/' + wxLowTemperature1 + '°)\n'
-                        + '**Morn: **' + wxMorning1 + '° **Day: **' + wxAfternoon1 + '° **Eve: **' + wxEvening1 + '°\n'
-                        + '**Prec: **' + wxPrecip1 + '% **Wind: **' + wxWindSpeed1 + 'mph **Hum: **' + wxHumidity1 + '%\n'
-                        + '**Sunrise: **' + wxSunrise1 + '% **Sunset: **' + wxSunset1 + ' '
-                        + ' #wx-fc #weathercard #\[\[wx-' + wxConditions1 + '\]\]';
-                    // day 2
-                    var wxInfo2 = wxDay2 + '\n'
-                        + '\n'
-                        + '**Forecast: **' + wxDescription2 + ' (' + wxHighTemperature2 + '°/' + wxLowTemperature2 + '°)\n'
-                        + '**Morn: **' + wxMorning2 + '° **Day: **' + wxAfternoon2 + '° **Eve: **' + wxEvening2 + '°\n'
-                        + '**Prec: **' + wxPrecip2 + '% **Wind: **' + wxWindSpeed2 + 'mph **Hum: **' + wxHumidity2 + '%\n'
-                        + '**Sunrise: **' + wxSunrise2 + '% **Sunset: **' + wxSunset2 + ' '
-                        + ' #wx-fc #weathercard #\[\[wx-' + wxConditions2 + '\]\]';
-                    // day 3
-                    var wxInfo3 = wxDay3 + '\n'
-                        + '\n'
-                        + '**Forecast: **' + wxDescription3 + ' (' + wxHighTemperature3 + '°/' + wxLowTemperature3 + '°)\n'
-                        + '**Morn: **' + wxMorning3 + '° **Day: **' + wxAfternoon3 + '° **Eve: **' + wxEvening3 + '°\n'
-                        + '**Prec: **' + wxPrecip3 + '% **Wind: **' + wxWindSpeed3 + 'mph **Hum: **' + wxHumidity3 + '%\n'
-                        + '**Sunrise: **' + wxSunrise3 + '% **Sunset: **' + wxSunset3 + ' '
-                        + ' #wx-fc #weathercard #\[\[wx-' + wxConditions3 + '\]\]';
-*/
                     // update header 
                     const dateU = new Date(dataResults.current.dt * 1000);
                     var wxUpdateTime = '' + dateU.customFormat("#hhh#:#mm# #AMPM#") + '';
@@ -359,19 +250,6 @@ export default {
                         },
                     ];
                 };
-                /*
-                return [
-                    {
-                        text: '**' + wxLocationName + '** __' + wxUpdateTime + '__' + wxAlerts + ' #rm-grid #rm-grid-3c #.wx-header'.toString(),
-                        children: [
-                            { text: "" + wxInfo0.toString() + "" },
-                            { text: "" + wxInfo1.toString() + "" },
-                            { text: "" + wxInfo2.toString() + "" },
-                            { text: "" + wxInfo3.toString() + "" },
-                        ]
-                    },
-                ];
-                */
             }
         }
     },
