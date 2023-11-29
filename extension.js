@@ -164,7 +164,7 @@ export default {
                         + 'APPID=' + wxApiKey;
                     var requestResults = await fetch(url);
                     var dataResults = await requestResults.json();
-                    console.info(dataResults)
+                    //console.info(dataResults)
                     var curTimezone = new Date().getTimezoneOffset();
                     var weatherTimezone = dataResults.timezone_offset / 60 * -1;
                     var tzDiff = curTimezone - weatherTimezone;
