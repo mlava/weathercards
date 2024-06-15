@@ -149,6 +149,7 @@ export default {
                         + 'APPID=' + wxApiKey;
                     var requestResults = await fetch(url);
                     var dataResults = await requestResults.json();
+
                     var lat = dataResults[0].lat;
                     var lon = dataResults[0].lon;
                     if (dataResults[0].state) {
@@ -157,98 +158,104 @@ export default {
                         var wxLocationName = dataResults[0].name + ' (' + dataResults[0].country + ')';
                     }
 
-                    var url = 'https://api.openweathermap.org/data/2.5/onecall?'
+                    var url = 'https://api.openweathermap.org/data/3.0/onecall?'
                         + 'lat=' + lat + '&lon=' + lon
                         + '&units=' + wxUnits + '&'
                         + 'exclude=minutely,hourly&'
                         + 'APPID=' + wxApiKey;
                     var requestResults = await fetch(url);
                     var dataResults = await requestResults.json();
-                    //console.info(dataResults)
-                    var curTimezone = new Date().getTimezoneOffset();
-                    var weatherTimezone = dataResults.timezone_offset / 60 * -1;
-                    var tzDiff = curTimezone - weatherTimezone;
-                    var wxAlerts = '';
-
-                    let days = [];
-                    for (var i = 0; i < parseInt(wxNumber); i++) {
-                        const date = new Date(dataResults.daily[i].dt * 1000);
-                        var wxDay = '**' + date.customFormat("#DDDD#, #MMM# #DD#, #YYYY#") + '**';
-                        var wxDescription = toSentenceCase(dataResults.daily[i].weather[0].description);
-                        var wxHighTemperature = Math.round(dataResults.daily[i].temp.max);
-                        var wxLowTemperature = Math.round(dataResults.daily[i].temp.min);
-                        var wxMorning = Math.round(dataResults.daily[i].temp.morn);
-                        var wxAfternoon = Math.round(dataResults.daily[i].temp.day);
-                        var wxEvening = Math.round(dataResults.daily[i].temp.eve);
-                        var wxPrecip = Math.round(dataResults.daily[i].pop * 100);
-                        var wxInfo = "";
-
-                        if (i == 0) {
-                            var wxDescriptionCur = toSentenceCase(dataResults.current.weather[0].description);
-                            var wxConditions = dataResults.current.weather[0].main;
-                            var wxCurTemperature = Math.round(dataResults.current.temp);
-                            var wxHumidity = Math.round(dataResults.current.humidity);
-                            const dateS = new Date(dataResults.current.sunrise * 1000);
-                            var wxSunrise = '' + dateS.customFormat("#h#:#mm# #AMPM#") + '';
-                            const dateSS = new Date(dataResults.current.sunset * 1000);
-                            var wxSunset = '' + dateSS.customFormat("#h#:#mm# #AMPM#") + '';
-                            var wxWindSpeed = Math.round(dataResults.current.wind_speed);
-                            if (wxUnits == "imperial") {
-                                wxWindSpeed += "mph";
-                            } else {
-                                wxWindSpeed = Math.round(parseInt(wxWindSpeed) * 3.6);
-                                wxWindSpeed += "kph";
-                            }
-
-                            wxInfo += '**Today, **' + wxDay + '\n'
-                                + '\n'
-                                + '**Currently: **' + wxDescriptionCur + ' (' + wxCurTemperature + '°)\n'
-                                + '**Forecast: **' + wxDescription + ' (' + wxHighTemperature + '°/' + wxLowTemperature + '°)\n'
-                                + '**Morn: **' + wxMorning + '° **Day: **' + wxAfternoon + '° **Eve: **' + wxEvening + '°\n'
-                                + '**Prec: **' + wxPrecip + '% **Wind: **' + wxWindSpeed + ' **Hum: **' + wxHumidity + '%\n'
-                                + '**Sunrise: **' + wxSunrise + ' **Sunset: **' + wxSunset + ' '
-                                + ' #wx-fc #weathercard #\[\[wx-' + wxConditions + '\]\]';
-                        } else {
-                            var wxConditions = dataResults.daily[i].weather[0].main;
-                            const dateS = new Date(dataResults.daily[i].sunrise * 1000);
-                            var wxSunrise = '' + dateS.customFormat("#h#:#mm# #AMPM#") + '';
-                            const dateSS = new Date(dataResults.daily[i].sunset * 1000);
-                            var wxSunset = '' + dateSS.customFormat("#h#:#mm# #AMPM#") + '';
-                            var wxHumidity = Math.round(dataResults.daily[i].humidity);
-                            var wxWindSpeed = Math.round(dataResults.daily[i].wind_speed);
-                            if (wxUnits == "imperial") {
-                                wxWindSpeed += "mph";
-                            } else {
-                                wxWindSpeed = Math.round(parseInt(wxWindSpeed) * 3.6);
-                                wxWindSpeed += "kph";
-                            }
+                    console.info(dataResults);
+                    if (dataResults.hasOwnProperty("cod") && dataResults.cod == 401) {
+                        key = "API3";
+                        sendConfigAlert(key);
+                        break breakme;
+                    } else {
+                        var curTimezone = new Date().getTimezoneOffset();
+                        var weatherTimezone = dataResults.timezone_offset / 60 * -1;
+                        var tzDiff = curTimezone - weatherTimezone;
+                        var wxAlerts = '';
+    
+                        let days = [];
+                        for (var i = 0; i < parseInt(wxNumber); i++) {
+                            const date = new Date(dataResults.daily[i].dt * 1000);
+                            var wxDay = '**' + date.customFormat("#DDDD#, #MMM# #DD#, #YYYY#") + '**';
+                            var wxDescription = toSentenceCase(dataResults.daily[i].weather[0].description);
+                            var wxHighTemperature = Math.round(dataResults.daily[i].temp.max);
+                            var wxLowTemperature = Math.round(dataResults.daily[i].temp.min);
+                            var wxMorning = Math.round(dataResults.daily[i].temp.morn);
+                            var wxAfternoon = Math.round(dataResults.daily[i].temp.day);
+                            var wxEvening = Math.round(dataResults.daily[i].temp.eve);
                             var wxPrecip = Math.round(dataResults.daily[i].pop * 100);
-                            wxInfo += wxDay + '\n'
-                                + '\n'
-                                + '**Forecast: **' + wxDescription + ' (' + wxHighTemperature + '°/' + wxLowTemperature + '°)\n'
-                                + '**Morn: **' + wxMorning + '° **Day: **' + wxAfternoon + '° **Eve: **' + wxEvening + '°\n'
-                                + '**Prec: **' + wxPrecip + '% **Wind: **' + wxWindSpeed + ' **Hum: **' + wxHumidity + '%\n'
-                                + '**Sunrise: **' + wxSunrise + ' **Sunset: **' + wxSunset + ' '
-                                + ' #wx-fc #weathercard #\[\[wx-' + wxConditions + '\]\]';
+                            var wxInfo = "";
+    
+                            if (i == 0) {
+                                var wxDescriptionCur = toSentenceCase(dataResults.current.weather[0].description);
+                                var wxConditions = dataResults.current.weather[0].main;
+                                var wxCurTemperature = Math.round(dataResults.current.temp);
+                                var wxHumidity = Math.round(dataResults.current.humidity);
+                                const dateS = new Date(dataResults.current.sunrise * 1000);
+                                var wxSunrise = '' + dateS.customFormat("#h#:#mm# #AMPM#") + '';
+                                const dateSS = new Date(dataResults.current.sunset * 1000);
+                                var wxSunset = '' + dateSS.customFormat("#h#:#mm# #AMPM#") + '';
+                                var wxWindSpeed = Math.round(dataResults.current.wind_speed);
+                                if (wxUnits == "imperial") {
+                                    wxWindSpeed += "mph";
+                                } else {
+                                    wxWindSpeed = Math.round(parseInt(wxWindSpeed) * 3.6);
+                                    wxWindSpeed += "kph";
+                                }
+    
+                                wxInfo += '**Today, **' + wxDay + '\n'
+                                    + '\n'
+                                    + '**Currently: **' + wxDescriptionCur + ' (' + wxCurTemperature + '°)\n'
+                                    + '**Forecast: **' + wxDescription + ' (' + wxHighTemperature + '°/' + wxLowTemperature + '°)\n'
+                                    + '**Morn: **' + wxMorning + '° **Day: **' + wxAfternoon + '° **Eve: **' + wxEvening + '°\n'
+                                    + '**Prec: **' + wxPrecip + '% **Wind: **' + wxWindSpeed + ' **Hum: **' + wxHumidity + '%\n'
+                                    + '**Sunrise: **' + wxSunrise + ' **Sunset: **' + wxSunset + ' '
+                                    + ' #wx-fc #weathercard #\[\[wx-' + wxConditions + '\]\]';
+                            } else {
+                                var wxConditions = dataResults.daily[i].weather[0].main;
+                                const dateS = new Date(dataResults.daily[i].sunrise * 1000);
+                                var wxSunrise = '' + dateS.customFormat("#h#:#mm# #AMPM#") + '';
+                                const dateSS = new Date(dataResults.daily[i].sunset * 1000);
+                                var wxSunset = '' + dateSS.customFormat("#h#:#mm# #AMPM#") + '';
+                                var wxHumidity = Math.round(dataResults.daily[i].humidity);
+                                var wxWindSpeed = Math.round(dataResults.daily[i].wind_speed);
+                                if (wxUnits == "imperial") {
+                                    wxWindSpeed += "mph";
+                                } else {
+                                    wxWindSpeed = Math.round(parseInt(wxWindSpeed) * 3.6);
+                                    wxWindSpeed += "kph";
+                                }
+                                var wxPrecip = Math.round(dataResults.daily[i].pop * 100);
+                                wxInfo += wxDay + '\n'
+                                    + '\n'
+                                    + '**Forecast: **' + wxDescription + ' (' + wxHighTemperature + '°/' + wxLowTemperature + '°)\n'
+                                    + '**Morn: **' + wxMorning + '° **Day: **' + wxAfternoon + '° **Eve: **' + wxEvening + '°\n'
+                                    + '**Prec: **' + wxPrecip + '% **Wind: **' + wxWindSpeed + ' **Hum: **' + wxHumidity + '%\n'
+                                    + '**Sunrise: **' + wxSunrise + ' **Sunset: **' + wxSunset + ' '
+                                    + ' #wx-fc #weathercard #\[\[wx-' + wxConditions + '\]\]';
+                            }
+                            days.push({ "text": wxInfo });
                         }
-                        days.push({ "text": wxInfo });
+                        // update header 
+                        const dateU = new Date(dataResults.current.dt * 1000);
+                        var wxUpdateTime = '' + dateU.customFormat("#hhh#:#mm# #AMPM#") + '';
+    
+                        if (dataResults.alerts) {
+                            wxAlerts = '\n((\n'
+                                + dataResults.alerts[0].description.replace(/\n\*/g, 'linebreak').replace(/\n/g, ' ').replace(/linebreak/g, '\n*')
+                                + '))';
+                        }
+    
+                        return [
+                            {
+                                text: '**' + wxLocationName + '** __' + wxUpdateTime + '__' + wxAlerts + ' #rm-grid #rm-grid-3c #.wx-header'.toString(),
+                                children: days
+                            },
+                        ];
                     }
-                    // update header 
-                    const dateU = new Date(dataResults.current.dt * 1000);
-                    var wxUpdateTime = '' + dateU.customFormat("#hhh#:#mm# #AMPM#") + '';
-
-                    if (dataResults.alerts) {
-                        wxAlerts = '\n((\n'
-                            + dataResults.alerts[0].description.replace(/\n\*/g, 'linebreak').replace(/\n/g, ' ').replace(/linebreak/g, '\n*')
-                            + '))';
-                    }
-
-                    return [
-                        {
-                            text: '**' + wxLocationName + '** __' + wxUpdateTime + '__' + wxAlerts + ' #rm-grid #rm-grid-3c #.wx-header'.toString(),
-                            children: days
-                        },
-                    ];
                 };
             }
         }
@@ -267,6 +274,8 @@ function sendConfigAlert(key) {
         alert("Please set your location in the format city, country (e.g. melbourne, au or berlin, de) in the configuration settings via the Roam Depot tab.");
     } else if (key == "units") {
         alert("Please set your preferred units of measurement (metric or imperial) in the configuration settings via the Roam Depot tab.");
+    } else if (key == "API3") {
+        alert("Please subscribe to the updated OpenWeather One Call API 3.0 at https://openweathermap.org/api as the old API is deprecated. Once your new subscription is confirmed you should be able to use Weathercards as before without any change in settings.");
     }
 }
 
