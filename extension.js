@@ -244,7 +244,7 @@ export default {
                         var wxUpdateTime = '' + dateU.customFormat("#hhh#:#mm# #AMPM#") + '';
     
                         if (dataResults.alerts) {
-                            wxAlerts = '\n((\n'
+                            wxAlerts = '\n(('
                                 + dataResults.alerts[0].description.replace(/\n\*/g, 'linebreak').replace(/\n/g, ' ').replace(/linebreak/g, '\n*')
                                 + '))';
                         }
