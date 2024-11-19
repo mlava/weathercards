@@ -21,6 +21,22 @@
   margin-left: -5px;
 }
 
+div[data-page-links*="weathercard"] {
+  color: black;
+}
+span[data-tag*="wx-"], span.rm-page-ref.rm-page-ref--tag[data-tag*="weather"] {
+  display: none;
+}
+span[data-path-page-links*="wx-header"] {
+color:black;
+}
+[data-tag="weathercard"] {
+margin-left: -5px;
+}
+[data-tag="weathercard"], [data-tag^="wx-"] {
+font-size: 0px;
+}
+
 [data-tag="weathercard"],
 [data-tag^="wx-"] {
   font-size: 0px;
