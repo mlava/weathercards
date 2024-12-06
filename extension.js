@@ -165,7 +165,7 @@ export default {
                         + 'APPID=' + wxApiKey;
                     var requestResults = await fetch(url);
                     var dataResults = await requestResults.json();
-                    console.info(dataResults);
+                    
                     if (dataResults.hasOwnProperty("cod") && dataResults.cod == 401) {
                         key = "API3";
                         sendConfigAlert(key);
