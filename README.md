@@ -1,28 +1,39 @@
-Import the weather conditions and forecast from Open Weather Map.
+Weathercards
+============
 
-**Important:**
-- the OpenWeather One Call 2.5 API is being closed in June 2024 and being replaced by 3.0.
-- You need to subscribe to the updated API by logging into your account at https://openweathermap.org/api
-- Then, click the button to subscribe to the One Call API 3.0
-- after your new subscription is applied, your existing API tokens will continue to work
-- if weathercards aren't appearing, please wait a little longer to ensure the new subscription has been applied
+Weathercards inserts a compact weather summary and a multi‑day forecast as styled cards.
 
-**New:**
-- configure the number of days you want to import and show
-- fix windspeed units for metric
-- convert to Roam Research extensionAPI to allow Hotkeys via Settings
-- minor css tweaks
+Overview
+--------
+- Fetches current conditions and daily forecast from OpenWeather (One Call 3.0).
+- Inserts a header block (location + update time) and child cards for each day.
+- Supports metric or imperial units.
+- Optional alert pill: when an alert exists, a small “Alert” pill appears; hover shows the alert text as a tooltip.
+- Includes CSS to render the cards in a 3‑column grid with background images by condition.
 
-This is an update of David Eaton's original Weather Forecast SmartBlock, with an archived version of the instructions available at https://github.com/dvargas92495/SmartBlocks/issues/211.
+Setup
+-----
+1) Install the extension.
+2) Add your OpenWeather API key.
+3) Set a default location (e.g., `melbourne,au`).
+4) Choose units (metric or imperial).
+5) Choose how many days to show (Today Only, or 2‑8).
 
-Set your location, API key and preferred units in the Roam Depot settings. 
+Usage
+-----
+- Command Palette: run “Weathercards”.
+- SmartBlock: use `<%WEATHERCARDS%>`.
+- Hotkey: assign one in Roam Research Settings > Hotkeys.
 
-You can trigger via the Command Palette or use in a SmartBlock using the command <%WEATHERCARDS%>. Or, set a hotkey in Roam Research Settings > Hotkeys.
+Settings
+--------
+- API Key: your OpenWeather key.
+- Location: city and country (e.g., `berlin,de`).
+- Units: `metric` or `imperial`.
+- How Many Days: Today Only, or 2‑8.
 
-This extension also includes a css file that allows the cards to display in a grid:
-
-![image](https://user-images.githubusercontent.com/6857790/182787116-bd963122-5816-42b4-9a36-1cb6d3d860bd.png)
-
-You will need an API Key from https://openweathermap.org/api. Make sure to subscribe to the Current Weather Data API.
-
-![image](https://user-images.githubusercontent.com/6857790/185514633-5d65739c-7fdc-4f38-ac38-ba191beab8e2.png)
+Notes
+-----
+- The grid and card styling live in `extension.css`.
+- Weathercards is an update of David Eaton’s original Weather Forecast SmartBlock. Archived instructions are at:
+  https://github.com/dvargas92495/SmartBlocks/issues/211

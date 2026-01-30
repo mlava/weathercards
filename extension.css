@@ -24,7 +24,7 @@
 div[data-page-links*="weathercard"] {
   color: black;
 }
-span[data-tag*="wx-"], span.rm-page-ref.rm-page-ref--tag[data-tag*="weather"] {
+span[data-tag^="wx-"], span.rm-page-ref.rm-page-ref--tag[data-tag*="weather"] {
   display: none;
 }
 span[data-path-page-links*="wx-header"] {
@@ -47,12 +47,38 @@ font-size: 0px;
   height: 0;
 }
 
-.wx-header .rm-spacer:before {
-  content: " ‼ Special Weather Statement ‼ ";
-  color: red;
-  font-size: 1.15rem;
-  font-weight: bold;
-  display: visible;
+span[data-tag="wx-alert-pill"] {
+  background: rgba(255, 77, 79, 0.15);
+  border: 1px solid rgba(255, 77, 79, 0.5);
+  border-radius: 999px;
+  color: #b00020;
+  display: inline-block;
+  font-size: 0;
+  font-weight: 600;
+  line-height: 1;
+  padding: 2px 8px;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+span[data-tag="wx-alert-pill"]::before {
+  content: "⚠ Alert";
+  font-size: 0.75rem;
+}
+
+.wx-alert-tooltip {
+  position: fixed;
+  z-index: 9999;
+  background: rgba(255, 240, 240, 0.98);
+  border: 1px solid rgba(255, 77, 79, 0.45);
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  color: #5a0b12;
+  font-size: 0.85rem;
+  line-height: 1.3;
+  padding: 8px 10px;
+  pointer-events: none;
+  white-space: normal;
 }
 
 [data-tag=".wx-header"] {
@@ -92,32 +118,32 @@ div[data-page-links*="weathercard"] .rm-block-text {
 }
 
 [data-page-links*="wx-Clouds"] {
-  background-image: url(https://images.unsplash.com/photo-1499956827185-0d63ee78a910?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTR8fG92ZXJjYXN0JTIwc2t5fGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=60);
+  background-image: url(https://raw.githubusercontent.com/mlava/weathercards/main/images/clouds.jpg);
   background-color: rgba(255, 255, 255, 0.7);
   filter: contrast(100%);
 }
 
 [data-page-links*="wx-Clear"] {
   background-image: url(
-    https://images.unsplash.com/photo-1590077428593-a55bb07c4665?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTd8fGNsZWFyJTIwc2t5fGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=60);
+    https://raw.githubusercontent.com/mlava/weathercards/main/images/clear.jpg);
   background-color: rgba(155, 155, 155, 0.5);
   filter: contrast(150%);
 }
 
 [data-page-links*="wx-Rain"] {
-  background-image: url(https://images.unsplash.com/photo-1515886265830-ee3fa0921bf4?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MjQzfHxyYWlufGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=60);
+  background-image: url(https://raw.githubusercontent.com/mlava/weathercards/main/images/rain.jpg);
   background-color: rgba(155,155,155,1);
   filter: contrast(125%);
 }
 
 [data-page-links*="wx-Thunderstorm"] {
-  background-image: url(https://images.unsplash.com/photo-1528484593357-bb6777320d96?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MjMyfHx0aHVuZGVyc3Rvcm18ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=60);
+  background-image: url(https://raw.githubusercontent.com/mlava/weathercards/main/images/thunderstorm.jpg);
   background-color: rgba(200,200,255,0.7);
   filter: contrast(155%);
 }
 
 [data-page-links*="wx-Drizzle"] {
-  background-image: url(https://images.unsplash.com/photo-1523907148451-986fa7602675?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MjUxfHxyYWlufGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=60);
+  background-image: url(https://raw.githubusercontent.com/mlava/weathercards/main/images/drizzle.jpg);
   background-color: rgba(155,155,155,.85);
   filter: contrast(125%);
 }
@@ -125,27 +151,27 @@ div[data-page-links*="weathercard"] .rm-block-text {
 [data-page-links*="wx-Mist"],
 [data-page-links*="wx-Fog"],
 [data-page-links*="wx-Haze"] {
-  background-image: url(https://images.unsplash.com/photo-1562431382-9f95ac53b255?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MjIxfHxmb2d8ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=60);
+  background-image: url(https://raw.githubusercontent.com/mlava/weathercards/main/images/mist.jpg);
   background-color: rgba(125,125,125,.85);
   background-blend-mode: luminosity;
   filter: contrast(125%);
 }
 
 [data-page-links*="wx-Snow"] {
-  background-image: url(https://unsplash.com/photos/bokeh-photography-of-snows-SH4GNXNj1RA);
+  background-image: url(https://raw.githubusercontent.com/mlava/weathercards/main/images/snow.jpg);
   background-color: rgba(200, 200, 255, .75);
   filter: contrast(125%);
 }
 
 [data-page-links*="wx-Smoke"] {
-  background-image: url(https://images.unsplash.com/photo-1589825969834-e24c6859ac7a?ixid=MXwxMjA3fDB8MHxzZWFyY2h8NDU4fHxzbW9rZXxlbnwwfHwwfA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=60);
+  background-image: url(https://raw.githubusercontent.com/mlava/weathercards/main/images/smoke.jpg);
   background-color: rgba(155, 155, 155, .85);
   background-blend-mode: screen;
   filter: contrast(175%);
 }
 
 [data-page-links*="wx-Tornado"] {
-  background-image: url(https://unsplash.com/photos/long-exposure-photography-of-hurricane-n_3kdpSkrJo);
+  background-image: url(https://raw.githubusercontent.com/mlava/weathercards/main/images/tornado.jpg);
   background-color: rgba(155, 155, 155, .75);
   filter: contrast(175%);
   background-blend-mode: saturation;
