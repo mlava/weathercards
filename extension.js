@@ -450,7 +450,7 @@ async function getAlertTextForUid(uid) {
     }
     try {
         const props = window.roamAlphaAPI.pull("[:block/props]", [":block/uid", uid])?.[":block/props"];
-        const text = props?.["wx-alert-text"] || null;
+        const text = props?.["wx-alert-text"] || props?.[":wx-alert-text"] || null;
         if (text) {
             alertTextByUid.set(uid, text);
         }
