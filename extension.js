@@ -197,15 +197,17 @@ export default {
             );
         }
 
-        async function weather() {
+        async function weather(opts) {
             var key, wxUnits;
             breakme: {
                 if (!extensionAPI.settings.get("weather-wxApiKey")) {
                     key = "API";
+                    if (opts?.silent) return { error: "API key not configured. Set it in Weathercards extension settings." };
                     sendConfigAlert(key);
                     return [];
                 } else if (!extensionAPI.settings.get("weather-weatherDefaultLocation")) {
                     key = "location";
+                    if (opts?.silent) return { error: "Location not configured. Set it in Weathercards extension settings." };
                     sendConfigAlert(key);
                     return [];
                 } else {
@@ -219,6 +221,7 @@ export default {
                         wxUnits = rawUnits;
                     } else {
                         key = "units";
+                        if (opts?.silent) return { error: "Invalid units. Set metric or imperial in Weathercards extension settings." };
                         sendConfigAlert(key);
                         return [];
                     }
@@ -276,9 +279,58 @@ export default {
                     
                     if (dataResults.hasOwnProperty("cod") && dataResults.cod == 401) {
                         key = "API3";
+                        if (opts?.silent) return { error: "API key rejected. Subscribe to OpenWeather One Call API 3.0 at openweathermap.org." };
                         sendConfigAlert(key);
                         break breakme;
                     } else {
+                        if (opts?.silent) {
+                            const toWind = (speed) => {
+                                if (wxUnits === "imperial") return Math.round(speed) + "mph";
+                                return Math.round(Math.round(speed) * 3.6) + "kph";
+                            };
+                            const current = dataResults.current;
+                            const result = {
+                                location: wxLocationName,
+                                units: wxUnits,
+                                updated_at: formatDate(new Date(current.dt * 1000), "#hhh#:#mm# #AMPM#"),
+                                current: {
+                                    temperature: Math.round(current.temp),
+                                    description: toSentenceCase(current.weather[0].description),
+                                    conditions: current.weather[0].main,
+                                    humidity: Math.round(current.humidity),
+                                    wind_speed: toWind(current.wind_speed),
+                                    sunrise: formatDate(new Date(current.sunrise * 1000), "#h#:#mm# #AMPM#"),
+                                    sunset: formatDate(new Date(current.sunset * 1000), "#h#:#mm# #AMPM#"),
+                                },
+                                daily: [],
+                                alerts: null,
+                            };
+                            for (var j = 0; j < parseInt(wxNumber); j++) {
+                                const day = dataResults.daily[j];
+                                result.daily.push({
+                                    date: formatDate(new Date(day.dt * 1000), "#DDDD#, #MMM# #DD#, #YYYY#"),
+                                    description: toSentenceCase(day.weather[0].description),
+                                    conditions: day.weather[0].main,
+                                    high: Math.round(day.temp.max),
+                                    low: Math.round(day.temp.min),
+                                    morning: Math.round(day.temp.morn),
+                                    afternoon: Math.round(day.temp.day),
+                                    evening: Math.round(day.temp.eve),
+                                    precipitation_pct: Math.round(day.pop * 100),
+                                    humidity: Math.round(day.humidity),
+                                    wind_speed: toWind(day.wind_speed),
+                                    sunrise: formatDate(new Date(day.sunrise * 1000), "#h#:#mm# #AMPM#"),
+                                    sunset: formatDate(new Date(day.sunset * 1000), "#h#:#mm# #AMPM#"),
+                                });
+                            }
+                            if (dataResults.alerts) {
+                                result.alerts = dataResults.alerts.map(a => ({
+                                    event: a.event,
+                                    description: a.description,
+                                }));
+                            }
+                            return result;
+                        }
                         var curTimezone = new Date().getTimezoneOffset();
                         var weatherTimezone = dataResults.timezone_offset / 60 * -1;
                         var tzDiff = curTimezone - weatherTimezone;
@@ -379,13 +431,38 @@ export default {
                     }
                     } catch (err) {
                         console.error("Weathercards error:", err);
+                        if (opts?.silent) return { error: err.message || "Weather fetch failed" };
                         return [];
                     }
                 };
             }
         }
+
+        // Extension Tools API
+        window.RoamExtensionTools = window.RoamExtensionTools || {};
+        window.RoamExtensionTools["weathercards"] = {
+            name: "Weathercards",
+            version: "1.0",
+            tools: [
+                {
+                    name: "weathercards_get_forecast",
+                    description: "Fetch the current weather forecast for the configured location. Returns current conditions and a multi-day daily forecast as structured JSON. Does not write to the graph.",
+                    readOnly: true,
+                    parameters: {
+                        type: "object",
+                        properties: {},
+                    },
+                    execute: async () => {
+                        const result = await weather({ silent: true });
+                        if (result?.error) return { error: result.error };
+                        return result;
+                    },
+                },
+            ],
+        };
     },
     onunload: () => {
+        delete window.RoamExtensionTools?.["weathercards"];
         if (window.roamjs?.extension?.smartblocks) {
             window.roamjs.extension.smartblocks.unregisterCommand("WEATHERCARDS");
         };
